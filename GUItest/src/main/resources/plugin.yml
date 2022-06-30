@@ -1,0 +1,13 @@
+name: GUItest
+version: '${project.version}'
+main: com.github.ytshiyugh.guitest.GUItest
+api-version: 1.18
+authors: [ ytshiyugh ]
+description: Plugin for gui test.
+commands:
+  gui:
+    description: gui inventory open test.
+  newpstd:
+    description: new deposit
+  newpsts:
+    description: new show
