@@ -35,6 +35,7 @@ public class GUIcall implements CommandExecutor {
 
 
         //inv.setItem();
+
         ((Player) sender).openInventory(inv);
 
 
