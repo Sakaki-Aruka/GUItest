@@ -17,5 +17,6 @@ PublicPublish is one of the function that you can use on GUI menu.
 <br>
 PublicMemo  
 PublicMemo is one of the function that you can use on GUI menu.  
+(Developping now)  
 <br>
 Made by Sakaki-Aruka.
