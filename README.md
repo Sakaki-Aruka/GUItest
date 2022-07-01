@@ -10,4 +10,12 @@ WorldTeleport is one of the function that you can use on GUI menu.
 <br>
 HomePoint  
 HomePoint is one of the function that you can use on GUI menu.  
+<br>
+Public Publish  
+PublicPublish is one of the function that you can use on GUI menu.  
+(Developping now)  
+<br>
+PublicMemo  
+PublicMemo is one of the function that you can use on GUI menu.  
+<br>
 Made by Sakaki-Aruka.
