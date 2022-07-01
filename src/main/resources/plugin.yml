@@ -11,3 +11,5 @@ commands:
     description: new deposit
   newpsts:
     description: new show
+  dbtest:
+    description: mysql test
