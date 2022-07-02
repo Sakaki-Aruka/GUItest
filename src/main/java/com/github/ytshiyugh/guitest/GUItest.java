@@ -24,7 +24,7 @@ public final class GUItest extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SignEdit(),this);
         getCommand("newpstd").setExecutor(new DepositMainClass());
         getCommand("newpsts").setExecutor(new ShowMainClass());
-        getCommand("dbtest").setExecutor(new DataBaseConnectionTest());
+
 
         //getServer().getPluginManager().registerEvents(new Ichikara(),this);
 
