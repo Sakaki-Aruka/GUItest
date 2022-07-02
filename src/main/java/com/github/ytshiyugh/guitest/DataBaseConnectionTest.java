@@ -10,6 +10,25 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DataBaseConnectionTest {
+   public void DatabaseUPDATE(String input){
+       Connection con;
+       try{
+           con= DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","aruka3^2xa3sa");
+           try{
+               Statement st = con.createStatement();
+               int result = st.executeUpdate(input);
+               return;
+           }catch (SQLException e){
+               return;
+           }
+       }catch (SQLException SE) {
+           System.out.println("fail to connect mysql.");
+           System.out.println("Error:"+SE);
+           //Illegal means illegal connection or fail to connection(=error occurred)
+           return;
+       }
+   }
+
     public Object Database(String input,String type,String requestData) {
         //only for search that public storage items or items amount
         //String input is input sql sentence.
@@ -56,18 +75,6 @@ public class DataBaseConnectionTest {
                     con.close();
                     System.out.println("End of Connection");
                     return things;
-                }else if(type.equalsIgnoreCase("boolean")){
-                    //
-                    int things = 0;
-                    try{
-                        while(result.next()){
-                            things = result.getInt(requestData);
-                        }
-                        con.close();
-                        return true;
-                    }catch (SQLException e){
-                        return false;
-                    }
                 }else{
                     // TEKITOU process
                     return null;

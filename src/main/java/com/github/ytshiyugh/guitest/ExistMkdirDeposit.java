@@ -30,10 +30,37 @@ public class ExistMkdirDeposit {
         //
         String ItemID = ItemIDRaw.toLowerCase(Locale.ROOT);
         IllegalItemJudge IIJ = new IllegalItemJudge();
+        DataBaseConnectionTest DBCTest = new DataBaseConnectionTest();
 
         if(IIJ.Judge(ItemID)==false){
             return -2;
         }
+
+        //OnStorage items amount get
+        String SQLSentence = "select * from publicstorage where itemid = '"+ItemID+"';";
+        int onStorage = Integer.valueOf(DBCTest.Database(SQLSentence,"int","amount").toString());
+        if(onStorage==-1){
+            //should mkdir
+            String SQLSentenceMake = "insert into publicstorage (amount,itemid) values ("+PlayerHave+",'"+ItemID+"');";
+            DBCTest.DatabaseUPDATE(SQLSentenceMake);
+            return RequestAmount;
+        }else{
+            int StoragePlusPlayer = onStorage + RequestAmount;
+            //update on PublicStorage amount
+            SQLSentence = "update publicstorage set amount = '"+StoragePlusPlayer+"' where itemid = '"+ItemID+"';";
+            DBCTest.DatabaseUPDATE(SQLSentence);
+            int returnCode = PlayerHave - RequestAmount;
+            if(InterfaceType.equalsIgnoreCase("player")){
+                return returnCode;
+            }else{
+                //gui
+                return -1;
+            }
+
+        }
+
+
+        /*
 
         File ItemNameFile = new File(Paths.get("").toAbsolutePath()+"/plugins/TestPlugin/StorageItems/"+ItemID);
         try{
@@ -42,6 +69,7 @@ public class ExistMkdirDeposit {
                 //get item amount on the public storage
                 String FileName = ItemNameFileArray[i].getName().replace(".txt","");
                 File fOld = new File(Paths.get("").toAbsolutePath()+"/plugins/TestPlugin/StorageItems/"+ItemID+"/"+ItemNameFileArray[i].getName());
+
 
                 int ItemAmountOnStorage = Integer.valueOf(FileName);
                 // Storage's amount plus players item amount
@@ -73,5 +101,9 @@ public class ExistMkdirDeposit {
             return RequestAmount;
         }
         return -1;
+
+         */
     }
+
+
 }
