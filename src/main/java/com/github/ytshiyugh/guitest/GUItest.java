@@ -22,6 +22,7 @@ public final class GUItest extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryClick(),this);
         getServer().getPluginManager().registerEvents(new InventoryClose(),this);
         getServer().getPluginManager().registerEvents(new SignEdit(),this);
+        getServer().getPluginManager().registerEvents(new InventoryDrag(),this);
         getCommand("newpstd").setExecutor(new DepositMainClass());
         getCommand("newpsts").setExecutor(new ShowMainClass());
 

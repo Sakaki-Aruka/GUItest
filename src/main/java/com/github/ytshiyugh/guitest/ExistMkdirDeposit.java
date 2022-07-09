@@ -42,12 +42,22 @@ public class ExistMkdirDeposit {
         if(onStorage==-1){
             //should mkdir
             String SQLSentenceMake = "insert into publicstorage (amount,itemid) values ("+PlayerHave+",'"+ItemID+"');";
+
+
+            System.out.println("insert");
+
+
             DBCTest.DatabaseUPDATE(SQLSentenceMake);
             return RequestAmount;
         }else{
             int StoragePlusPlayer = onStorage + RequestAmount;
+
+
+            System.out.println("update");
+
+
             //update on PublicStorage amount
-            SQLSentence = "update publicstorage set amount = '"+StoragePlusPlayer+"' where itemid = '"+ItemID+"';";
+            SQLSentence = "update publicstorage set amount="+StoragePlusPlayer+" where itemid='"+ItemID+"';";
             DBCTest.DatabaseUPDATE(SQLSentence);
             int returnCode = PlayerHave - RequestAmount;
             if(InterfaceType.equalsIgnoreCase("player")){

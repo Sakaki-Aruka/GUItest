@@ -272,7 +272,7 @@ public class DepositMainClass implements CommandExecutor{
             //from GUI
             try{
                 int AmountInt = Integer.valueOf(Amount);
-                int EMDItemDeposit = EMD.ItemDeposit(ItemID,AmountInt,AmountInt,"gui");
+                int EMDItemDeposit = EMD.ItemDeposit(ItemID.toLowerCase(Locale.ROOT),AmountInt,AmountInt,"gui");
                 String DebugString = "Deposit / "+ItemID+" / "+AmountInt;
                 DString.Successful(player,DebugString);
                 return false;

@@ -39,16 +39,16 @@ public class PublicStorageCommandSendAsPlayer {
 
             }else if(ClickNo==4){
                 //Pull
-                //add "PublicStoragePullOpen" tag to sender.
+
                 sender.addScoreboardTag("PublicStoragePullOpen");
                 StickClickViewPublicStorageCommands SCVPSC = new StickClickViewPublicStorageCommands();
                 SCVPSC.PublicStorageShow(sender);
             }
         }
 
-        if(UserTags.contains("PublicStorageDepositOpen")){
+        if(UserTags.contains("PublicStorageDepositOpen") ){
             //if click Deposit button (beacon)
-            if(ClickNo==49){
+            if(ClickNo==49 && UserTags.contains("PublicStorageDepositOpen")){
                 for(int i=0;i<54;i++){
 
                     try{
@@ -63,7 +63,7 @@ public class PublicStorageCommandSendAsPlayer {
                             int RequestAmout = GetInventory.getItem(i).getAmount();
 
                             //newpstd gui リクエスト量 アイテムID
-                            sender.chat("/newpstd gui"+" "+RequestAmout+" "+GetInventory.getItem(i).getType());
+                            sender.chat("/newpstd gui"+" "+RequestAmout+" "+GetInventory.getItem(i).getType().toString().toLowerCase(Locale.ROOT));
                         }
                     }catch(NullPointerException NullPo){
                         //no items there

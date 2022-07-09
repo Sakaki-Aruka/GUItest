@@ -1,5 +1,6 @@
 package com.github.ytshiyugh.guitest;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -59,15 +60,47 @@ public class InventoryClose implements Listener {
             sender.sendMessage("PublicStorageShowResultOpenImitation Removed");
         }
 
+        if(UserTags.contains("PublicStoragePullResultOpenImitation")){
+            event.getPlayer().removeScoreboardTag("PublicStoragePullResultOpenImitation");
+            sender.sendMessage("PublicStoragePullResultOpenImitation Removed");
+        }
+
         if(UserTags.contains("PublicStoragePullResultOpen")){
             event.getPlayer().removeScoreboardTag("PublicStoragePullResultOpen");
             sender.sendMessage("PublicStoragePullResultOpen Removed");
         }
 
-        if(UserTags.contains("PublicStoragePullResultOpenImitation")){
-            event.getPlayer().removeScoreboardTag("PublicStoragePullResultOpenImitation");
-            sender.sendMessage("PublicStoragePullResultOpenImitation Removed");
+        if(UserTags.contains("PublicStoragePull-Pull")){
+            event.getPlayer().removeScoreboardTag("PublicStoragePull-Pull");
+            sender.sendMessage("PublicStoragePull-Pull Removed");
+
+            DataBaseConnectionTest DBCT = new DataBaseConnectionTest();
+            int temporaryDeposit = Integer.valueOf(DBCT.Database("select deposit from temporary where playername='"+event.getPlayer().getName()+"';","int","deposit").toString());
+
+            int temporaryPull = Integer.valueOf(DBCT.Database("select pull from temporary where playername='"+event.getPlayer().getName()+"';","int","pull").toString());
+
+            int difference = temporaryPull - temporaryDeposit;
+            if(difference > 0){
+                //write pull-process here.
+                String ItemID = DBCT.Database("select itemid from temporary where playername='"+event.getPlayer().getName()+"';","string","itemid").toString();
+
+                int onStorage = Integer.valueOf(DBCT.Database("select amount from publicstorage where itemid='"+ItemID+"';","int","amount").toString());
+                int changeAmount = onStorage - difference;
+                if(difference < 2){
+                    changeAmount = 1;
+                }
+                DBCT.DatabaseUPDATE("update publicstorage set amount="+changeAmount+" where itemid='"+ItemID+"';");
+
+                DepositStrings DString = new DepositStrings();
+                UUID uuid = event.getPlayer().getUniqueId();
+                Player player = Bukkit.getPlayer(uuid);
+                DString.Successful(player,"Pull / "+difference+" / "+ItemID);
+            }
+
+            DBCT.DatabaseUPDATE("delete from temporary where playername='"+event.getPlayer().getName()+"';");
         }
+
+
 
         if(UserTags.contains("PublicStorageDepositOpen")){
             try{

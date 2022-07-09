@@ -12,8 +12,13 @@ import java.util.ArrayList;
 public class DataBaseConnectionTest {
    public void DatabaseUPDATE(String input){
        Connection con;
+
+       System.out.println("update:"+input);
+
        try{
-           con= DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","aruka3^2xa3sa");
+           //on Ubuntu password = aruka3^2za3sa@
+           //on Windows password = aruka3^2xa3sa
+           con= DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","aruka3^2za3sa@");
            try{
                Statement st = con.createStatement();
                int result = st.executeUpdate(input);
@@ -34,11 +39,14 @@ public class DataBaseConnectionTest {
         //String input is input sql sentence.
         //requestData is field name.
 
+        System.out.println("input:"+input+"\ntype:"+type+"\ndata:"+requestData);
 
         //here
         Connection con;
         try{
-            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","aruka3^2xa3sa");
+            //on Ubuntu password = aruka3^2za3sa@
+            //on Windows password = aruka3^2xa3sa
+            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","aruka3^2za3sa@");
             try{
                 Statement st = con.createStatement();
                 //request send to database

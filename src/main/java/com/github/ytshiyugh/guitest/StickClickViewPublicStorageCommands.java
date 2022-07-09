@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.units.qual.A;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,10 +50,12 @@ public class StickClickViewPublicStorageCommands {
         ItemStack PublicStorageDepositClose = new ItemStack(Material.BEACON);
         ItemMeta PublicStorageDepositCloseMeta = PublicStorageDepositClose.getItemMeta();
         PublicStorageDepositCloseMeta.setDisplayName("§eDeposit");
-        PublicStorageDepositCloseMeta.setLore(Arrays.asList("§fDeposit selected items"));
+        PublicStorageDepositCloseMeta.setLore(Arrays.asList("§fDeposit that selected items"));
         PublicStorageDepositClose.setItemMeta(PublicStorageDepositCloseMeta);
         return PublicStorageDepositClose;
     }
+
+
 
     public void PublicStorageShowShow(Player sender,ItemStack DisplayStack,String InventoryName,String ScoreboardString){
         Inventory PublicStorageShowShow = Bukkit.createInventory(null,27,InventoryName);
@@ -115,6 +118,58 @@ public class StickClickViewPublicStorageCommands {
         }
         ReturnInventory.setItem(53,new StickViewBackHomeMenu().BackHomeMenu());
         ReturnInventory.setItem(45,this.ReturnButton("Return to ItemID Enter"));
+        return ReturnInventory;
+    }
+
+    public Inventory PublicStoragePullLastProcess(Material IDMaterial,String IDString,String InvTitle){
+
+        DataBaseConnectionTest DBCT = new DataBaseConnectionTest();
+        String SQLSentence = "select amount from publicstorage where itemid='"+IDString.toLowerCase(Locale.ROOT)+"';";
+
+        //make inventory to use in pull final process that player can pull items.
+        Inventory ReturnInventory = Bukkit.createInventory(null,54,InvTitle);
+
+        //get storage amount from mysql database.
+        int StorageAmount = Integer.valueOf(DBCT.Database(SQLSentence,"int","amount").toString());
+
+        if(StorageAmount < 2){
+            //if storage amount lest than 2
+            ItemStack NullBedRock = this.PublicStorageShowPreparation("A",0);
+            ReturnInventory.setItem(22,NullBedRock);
+
+            //return bedrock with a lore that written "null".
+            return ReturnInventory;
+
+        }else if(StorageAmount > 64){
+            //when the amount of the target item more than 1 stack on the storage.
+            int ii = 0;
+            ItemStack LoopStack;
+            for (int i=StorageAmount;i> 64;i -=64){
+                //make item-stack to set return inventory
+                LoopStack = new ItemStack(IDMaterial,64);
+                ReturnInventory.setItem(ii,LoopStack);
+                ii += 1;
+                if(ii == 44){
+                    break;
+                }
+            }
+            //finally
+            int remainingAmount = StorageAmount - 64*ii;
+            if(remainingAmount > 64){
+                //
+                LoopStack = new ItemStack(IDMaterial,64);
+                ReturnInventory.setItem(ii,LoopStack);
+            }else{
+                LoopStack = new ItemStack(IDMaterial,remainingAmount);
+                ReturnInventory.setItem(ii,LoopStack);
+            }
+
+        }else if(StorageAmount > 2 && StorageAmount <= 64){
+            //
+            ItemStack ItemStack = new ItemStack(IDMaterial,StorageAmount);
+            ReturnInventory.setItem(22,ItemStack);
+        }
+
         return ReturnInventory;
     }
 
@@ -197,6 +252,7 @@ public class StickClickViewPublicStorageCommands {
 
 
     }
+
 
 
 }

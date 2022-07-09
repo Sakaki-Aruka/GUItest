@@ -1,5 +1,6 @@
 package com.github.ytshiyugh.guitest;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -8,8 +9,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,14 +56,15 @@ public class SignEdit implements Listener {
             StickClickViewPublicStorageCommands SCVPSC = new StickClickViewPublicStorageCommands();
 
             if(SignString.length() < 3){
+                //enter item id error(short id)
                 ItemStack ErrorItemStack = SCVPSC.PublicStorageShowPreparation("A",0);
                 if(player.getScoreboardTags().contains("PublicStorageShowResultOpen")){
                     SCVPSC.PublicStorageShowShow(player,ErrorItemStack,"PublicStorageShowResult","PublicStorageShowResultOpen");
                     DString.Error(player,"Illegal Args(ItemID length)");
                     return;
                 }else if(player.getScoreboardTags().contains("PublicStoragePullResultOpen")){
+                    //
                     SCVPSC.PublicStorageShowShow(player,ErrorItemStack,"PublicStoragePullResult","PublicStoragePullResultOpen");
-                    DString.Error(player,"Illegal Args(ItemID length)");
                 }
 
             }
@@ -92,17 +97,16 @@ public class SignEdit implements Listener {
                     SCVPSC.PublicStorageShowShow(player,ReturnItemStack,"PublicStoragePullResult","PublicStoragePullResultOpen");
                 }
             }else{
-                if(player.getScoreboardTags().contains("PublicStorageShowResultOpen")){
+                if(player.getScoreboardTags().contains("PublicStorageShowResultOpen")) {
                     //
                     //if an item that player send not find
                     ArrayList<String> ReturnCode = GIAoS.GetImitation(SignString);
-                    Inventory ShowInventory = SCVPSC.PublicStorageShowImitation(ReturnCode,player,"PublicStorageShow Result");
+                    Inventory ShowInventory = SCVPSC.PublicStorageShowImitation(ReturnCode, player, "PublicStorageShow Result");
                     player.openInventory(ShowInventory);
                     player.removeScoreboardTag("PublicStorageShowResultOpen");
                     player.addScoreboardTag("PublicStorageShowResultOpenImitation");
                 }else if(player.getScoreboardTags().contains("PublicStoragePullResultOpen")){
-                    //
-                    ArrayList<String> ReturnCode = GIAoS.GetImitation(SignString);
+                    ArrayList<String> ReturnCode= GIAoS.GetImitation(SignString);
                     Inventory ShowInventory = SCVPSC.PublicStorageShowImitation(ReturnCode,player,"PublicStoragePull Result");
                     player.openInventory(ShowInventory);
                     player.removeScoreboardTag("PublicStoragePullResultOpen");
